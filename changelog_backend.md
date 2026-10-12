@@ -4,6 +4,78 @@ All backend architectural changes, migrations, API contracts, environment update
 
 ---
 
+## [Locked v2 Architecture: SQLite Hardening, ChromaDB, Offline Sync & LangGraph WHY Engine] - 2026-10-12
+
+### 1. Scope & Stack Alignment (Prompts 1 – 6)
+- **Stack Lockdown:** Replaced legacy Supabase/PostgreSQL/pgvector runtime reliance with a local-first, highly reliable foundation:
+  - **Relational Core:** SQLite (via SQLAlchemy 2.x + Alembic) with WAL mode, foreign keys enforced on connection, and a 5000ms busy timeout.
+  - **Vector Retrieval:** ChromaDB persistent client managing rebuildable curriculum chunks with exact pre-filters.
+  - **Diagnostic Agent:** LangGraph StateGraph orchestrating hypothesis formulation, probe selection (max 2), grounded evidence retrieval, and Mark Recovery Report generation.
+  - **LLM Integration:** Isolated Gemini adapter with deterministic fallback heuristics ensuring tests run offline without network access or live credentials.
+  - **Client Offline Synchronization:** Bounded content pack distribution and idempotent batch event synchronization with conflict deduplication via `sync_receipts`.
+
+### 2. Files Added & Modified
+- **Documentation & Configuration:**
+  - `docs/TECH_STACK.md` — Authoritative component matrix, responsibilities, and data boundaries.
+  - `docs/backend-state-audit.md` — Initial repository audit, component inventory, and migration risks.
+  - `docs/api-contracts.md` — Complete endpoint contracts for mini-mock, RAG, and diagnosis workflows.
+  - `docs/offline-sync.md` — Specification for offline packs, client Dexie separation, and sync receipts.
+  - `backend/.env.example` — Documented environment variables for SQLite, ChromaDB, Gemini, and optional Langfuse.
+  - `backend/requirements.txt` & `backend/pyproject.toml` — Added `chromadb>=1.5.0` and `langgraph>=1.2.0`, removed Postgres binaries.
+  - `.gitignore` (root & backend) — Added strict exclusions for local database files, vector store data, and prompt instruction files.
+- **Database & Migrations:**
+  - `backend/app/db/session.py` — Engine setup with SQLite connect listener executing `PRAGMA foreign_keys=ON;`, `PRAGMA journal_mode=WAL;`, `PRAGMA busy_timeout=5000;`.
+  - `backend/alembic/versions/0002_diagnosis_and_sync_schema.py` — Migration adding `diagnostic_runs`, `diagnostic_probes`, `recovery_reports`, `sync_receipts`, and `content_chunks` provenance fields.
+  - `backend/app/models/diagnostic.py` — `DiagnosticRun`, `DiagnosticProbe`, and `RecoveryReport` domain models.
+  - `backend/app/models/sync_receipt.py` — `SyncReceipt` domain model for idempotency ledger.
+  - `backend/app/models/content_chunk.py` — Provenance extensions (`source_locator`, `checksum`, `class_level`, `subject_id`).
+  - `backend/app/db/seed_demo_data.py` — Seeder populating 25 reviewed bilingual questions across Class 9, 10, and 12 with approved content chunks.
+- **Mini-Mock & Assessment:**
+  - `backend/app/schemas/mock_test.py` — `MockStartRequest`, `MockSessionResponse`, `MockSubmitRequest`, and `MockResultResponse`.
+  - `backend/app/services/mock_service.py` — 5-question mini-mock orchestration, answer key concealment, server-side grading, and diagnosis triggering.
+  - `backend/app/api/v1/endpoints/mock_exam.py` — `/api/v1/mock/start` and `/api/v1/mock/{session_id}/submit`.
+- **RAG & ChromaDB:**
+  - `backend/app/rag/embedding.py` — Pinned 384-dimensional embedding adapter with deterministic projection fallback.
+  - `backend/app/rag/chroma_client.py` — Persistent ChromaDB store wrapper with SQLite reconciliation (`rebuild_from_sqlite`), metadata pre-filters, and keyword fallback.
+  - `backend/app/rag/provenance.py` — Structured citation and grounded context formatter.
+  - `backend/app/api/v1/endpoints/rag.py` — `/api/v1/rag/health`, `/api/v1/rag/reindex`, and `/api/v1/rag/query`.
+- **Offline Content Packs & Sync:**
+  - `backend/app/schemas/sync.py` — `ContentPackManifest`, `ContentPackBundle`, `SyncEvent`, and `SyncBatchResponse`.
+  - `backend/app/services/sync_service.py` — Pack assembler (omitting answer keys) and idempotent batch processing engine.
+  - `backend/app/api/v1/endpoints/sync.py` — `/api/v1/sync/packs`, `/api/v1/sync/packs/{id}`, and `/api/v1/sync/batch`.
+- **LangGraph WHY Engine:**
+  - `backend/app/why_engine/gemini_adapter.py` — Provider adapter with bounded hypotheses scoring and explanation generation.
+  - `backend/app/why_engine/graph.py` — LangGraph diagnosis StateGraph (`evaluate_attempt` -> `retrieve_rag_evidence` -> `formulate_hypotheses` -> `select_probes` -> `generate_recovery_report`).
+  - `backend/app/why_engine/service.py` — Execution coordinator and recovery verification manager.
+  - `backend/app/api/v1/endpoints/diagnosis.py` — `/api/v1/diagnosis/run/{attempt_id}`, `/api/v1/diagnosis/reports/{report_id}`, and `/api/v1/diagnosis/reports/{report_id}/verify`.
+- **Test Suite:**
+  - `backend/tests/test_sqlite_hardening.py` — Tests for foreign keys enforcement, session rollback, and unique constraints.
+  - `backend/tests/test_mock_test.py` — Tests for mini-mock answer key concealment and authoritative grading.
+  - `backend/tests/test_rag.py` — Tests for ChromaDB health, SQLite re-indexing, and curriculum query filters.
+  - `backend/tests/test_sync.py` — Tests for offline pack bundle structure and idempotent duplicate handling.
+  - `backend/tests/test_why_engine.py` — Tests for diagnostic graph execution and mark recovery verification loop.
+
+### 3. Tests Executed & Actual Results
+- **Command:** `pytest backend/tests -v` (executed via `backend\.venv\Scripts\pytest.exe`)
+- **Result:** **32 passed, 0 failed, 4 warnings in 2.37s**
+- **Test Coverage Summary:**
+  - 4 attempt scoring & ownership tests
+  - 5 authentication & role verification tests
+  - 4 configuration validation tests
+  - 3 centralized error handling tests
+  - 1 database health check test
+  - 1 Alembic multi-version migration upgrade test
+  - 2 mini-mock answer concealment & scoring tests
+  - 2 public question representation tests
+  - 2 curriculum schema validation tests
+  - 3 SQLite PRAGMA & rollback hardening tests
+  - 1 app boot & OpenAPI startup test
+  - 2 ChromaDB RAG health & query tests
+  - 2 offline pack download & duplicate sync tests
+  - 1 LangGraph WHY Engine diagnosis & mark recovery verification test
+
+---
+
 ## [Initial MVP Backend Foundation] - 2026-10-11
 
 ### 1. Files Added & Modified

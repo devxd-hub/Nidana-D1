@@ -17,7 +17,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 # Set environment before loading application config
 os.environ["APP_ENV"] = "development"
+os.environ["SQLITE_DATABASE_URL"] = "sqlite:///:memory:"
 os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+os.environ["CHROMA_PERSIST_DIRECTORY"] = "./data/test_chroma"
 os.environ["SUPABASE_JWT_SECRET"] = "test-secret-key-32-chars-long-test-only!!"
 os.environ["SUPABASE_JWT_AUDIENCE"] = "authenticated"
 os.environ["SUPABASE_JWT_ALGORITHM"] = "HS256"
@@ -123,3 +125,14 @@ def educator_token() -> str:
 @pytest.fixture
 def admin_token() -> str:
     return make_test_jwt(user_id="admin-999", email="admin@test.com", role=UserRole.ADMIN.value)
+
+
+@pytest.fixture
+def learner_auth_headers(learner_token: str) -> dict:
+    return {"Authorization": f"Bearer {learner_token}"}
+
+
+@pytest.fixture
+def admin_auth_headers(admin_token: str) -> dict:
+    return {"Authorization": f"Bearer {admin_token}"}
+
