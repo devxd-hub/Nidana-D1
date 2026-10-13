@@ -25,7 +25,7 @@ if config.config_file_name is not None:
 current_url = config.get_main_option("sqlalchemy.url")
 if not current_url or "nidana_dev.db" in current_url:
     settings = get_settings()
-    config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+    config.set_main_option("sqlalchemy.url", settings.effective_database_url)
 
 target_metadata = Base.metadata
 

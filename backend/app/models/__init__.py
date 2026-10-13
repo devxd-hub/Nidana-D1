@@ -1,12 +1,14 @@
-"""SQLAlchemy domain models package."""
+"""SQLAlchemy domain models package for NIDANA."""
 
 from app.models.attempt import Attempt
 from app.models.chapter import Chapter
 from app.models.concept import Concept
 from app.models.content_chunk import ContentChunk
+from app.models.diagnostic import DiagnosticProbe, DiagnosticRun, RecoveryReport
 from app.models.question import Question, QuestionVariant
 from app.models.study_plan import StudyPlan, StudyPlanTask
 from app.models.subject import Subject
+from app.models.sync_receipt import SyncReceipt
 from app.models.user import User
 
 __all__ = [
@@ -20,4 +22,8 @@ __all__ = [
     "Attempt",
     "StudyPlan",
     "StudyPlanTask",
+    "DiagnosticRun",
+    "DiagnosticProbe",
+    "RecoveryReport",
+    "SyncReceipt",
 ]

@@ -1,0 +1,60 @@
+# System & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Python & testing
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+junit.xml
+
+# Environment variables & local secrets
+.env
+.env.local
+.env.*.local
+
+# Databases & local persistent storage
+data/
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+chroma_db/
+chroma_data/
+
+# Prompt instruction files (must never be committed)
+*PROMPT*
+*prompt*
+*PROMPTS*
+*prompts*
+ANTIGRAVITY_BACKEND_PROMPTS*.md

@@ -1,32 +1,36 @@
-"""Application settings and configuration management using pydantic-settings."""
-
+"""Application configuration settings using pydantic-settings."""
 import os
+from enum import Enum
 from functools import lru_cache
-from typing import List, Union
+from typing import List, Optional, Union
 
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from app.core.constants import AppEnvironment
+
+class AppEnvironment(str, Enum):
+    DEVELOPMENT = "development"
+    STAGING = "staging"
+    PRODUCTION = "production"
+    TESTING = "testing"
 
 
 class Settings(BaseSettings):
-    """Strongly-typed application settings loaded from environment variables."""
+    """Central application settings with strong validation."""
 
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
+        case_sensitive=True,
         extra="ignore",
-        case_sensitive=False,
     )
 
-    # General App Config
     APP_NAME: str = "NIDANA-Backend"
-    APP_VERSION: str = "0.1.0"
+    APP_VERSION: str = "0.2.0"
     APP_ENV: AppEnvironment = AppEnvironment.DEVELOPMENT
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
-    HOST: str = "127.0.0.1"
+    HOST: str = "0.0.0.0"
     PORT: int = 8000
 
     # CORS settings
@@ -39,47 +43,80 @@ class Settings(BaseSettings):
             return [i.strip() for i in v.split(",") if i.strip()]
         return v
 
-    # Database connection
-    # Defaults to local sqlite for hermetic dev/testing if not specified.
+    # Authoritative Database (SQLite)
+    SQLITE_DATABASE_URL: str = Field(
+        default="sqlite:///./data/nidana.db",
+        description="Authoritative SQLite database file path.",
+    )
     DATABASE_URL: str = Field(
-        default="sqlite:///./nidana_dev.db",
-        description="SQLAlchemy database URL for PostgreSQL/Supabase or SQLite.",
+        default="",
+        description="Optional database URL override. Falls back to SQLITE_DATABASE_URL if omitted.",
     )
 
     @field_validator("DATABASE_URL")
     @classmethod
     def normalize_database_url(cls, v: str) -> str:
-        # Standardize postgres:// to postgresql+psycopg2:// for SQLAlchemy
+        if not v:
+            return ""
         if v.startswith("postgres://"):
             return v.replace("postgres://", "postgresql+psycopg2://", 1)
         if v.startswith("postgresql://") and "+psycopg2" not in v:
             return v.replace("postgresql://", "postgresql+psycopg2://", 1)
         return v
 
-    # Supabase Authentication & Project Settings
+    @property
+    def effective_database_url(self) -> str:
+        return self.DATABASE_URL if self.DATABASE_URL else self.SQLITE_DATABASE_URL
+
+    # ChromaDB Vector Store
+    CHROMA_PERSIST_DIRECTORY: str = Field(
+        default="./data/chroma",
+        description="Directory for local persistent ChromaDB vector store.",
+    )
+    CHROMA_COLLECTION_NAME: str = Field(
+        default="nidana_curriculum_chunks",
+        description="ChromaDB collection for approved curriculum chunks.",
+    )
+
+    # Gemini & AI Configuration
+    GEMINI_API_KEY: Optional[str] = Field(
+        default=None,
+        description="API key for Gemini LLM adapter. Optional in local/test double mode.",
+    )
+    GEMINI_MODEL: str = Field(
+        default="gemini-1.5-flash",
+        description="Default model name for Gemini adapter.",
+    )
+
+    # Optional Observability (Langfuse)
+    LANGFUSE_PUBLIC_KEY: Optional[str] = Field(default=None, description="Optional Langfuse public key.")
+    LANGFUSE_SECRET_KEY: Optional[str] = Field(default=None, description="Optional Langfuse secret key.")
+    LANGFUSE_HOST: Optional[str] = Field(default="https://cloud.langfuse.com", description="Langfuse host URL.")
+
+    # JWT Authentication & Security
     SUPABASE_URL: str = Field(
         default="https://placeholder.supabase.co",
-        description="Supabase project URL",
+        description="Supabase project URL (retained for backward compatibility).",
     )
     SUPABASE_ANON_KEY: str = Field(
         default="placeholder-anon-key",
-        description="Supabase anonymous client key",
+        description="Supabase anonymous client key.",
     )
     SUPABASE_SERVICE_ROLE_KEY: str = Field(
         default="",
-        description="Supabase service role secret (server-side only, never leak)",
+        description="Supabase service role secret.",
     )
     SUPABASE_JWT_SECRET: str = Field(
         default="nidana-dev-secret-key-32-chars-minimum-sample!!",
-        description="Supabase JWT secret for server-side token signature verification",
+        description="JWT secret for server-side token signature verification.",
     )
     SUPABASE_JWT_AUDIENCE: str = Field(
         default="authenticated",
-        description="Expected audience in Supabase JWTs",
+        description="Expected audience in JWTs.",
     )
     SUPABASE_JWT_ALGORITHM: str = Field(
         default="HS256",
-        description="Expected JWT signature algorithm",
+        description="Expected JWT signature algorithm.",
     )
 
     # Security Guardrails Validation
@@ -95,5 +132,5 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    """Return cached application settings singleton."""
+    """Cached settings singleton."""
     return Settings()

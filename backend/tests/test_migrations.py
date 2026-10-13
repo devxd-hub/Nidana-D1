@@ -42,6 +42,10 @@ def test_alembic_migration_upgrade_and_schema():
             "attempts",
             "study_plans",
             "study_plan_tasks",
+            "diagnostic_runs",
+            "diagnostic_probes",
+            "recovery_reports",
+            "sync_receipts",
             "alembic_version",
         }
         for table in expected_tables:
@@ -51,6 +55,12 @@ def test_alembic_migration_upgrade_and_schema():
         chapter_columns = {col["name"] for col in inspector.get_columns("chapters")}
         assert "class_level" in chapter_columns
         assert "subject_id" in chapter_columns
+
+        # Verify columns on content_chunks
+        chunk_columns = {col["name"] for col in inspector.get_columns("content_chunks")}
+        assert "source_locator" in chunk_columns
+        assert "checksum" in chunk_columns
+        assert "class_level" in chunk_columns
 
         engine.dispose()
     finally:
