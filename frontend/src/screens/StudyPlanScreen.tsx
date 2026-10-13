@@ -15,7 +15,6 @@ export const StudyPlanScreen: React.FC<StudyPlanScreenProps> = ({
   quests,
   onCompleteQuest,
 }) => {
-  // Track active quest state: starting a quest updates status from available to active
   const [activeQuestId, setActiveQuestId] = useState<string>('quest-1');
 
   const completedCount = quests.filter((q) => q.isCompleted).length;
@@ -30,14 +29,13 @@ export const StudyPlanScreen: React.FC<StudyPlanScreenProps> = ({
   };
 
   const handleStartFirstQuest = () => {
-    // Primary action "Start first quest" launches the Language Bridge mission
     setActiveQuestId('quest-1');
     onNavigate('why-engine');
   };
 
   return (
     <div className="space-y-4 pb-12">
-      {/* 1. Header with exact copy: "Today's quests" and summary */}
+      
       <header className="pt-2">
         <h1 className="font-serif-display text-2xl font-semibold text-[#191817] leading-tight">
           Today’s quests
@@ -51,7 +49,6 @@ export const StudyPlanScreen: React.FC<StudyPlanScreenProps> = ({
         </div>
       </header>
 
-      {/* 2. Quest Cards Stack */}
       <section className="space-y-3 pt-1" aria-label="Daily quests list">
         {quests.map((quest) => {
           const isActive = activeQuestId === quest.id && !quest.isCompleted;
@@ -113,13 +110,11 @@ export const StudyPlanScreen: React.FC<StudyPlanScreenProps> = ({
                 </div>
               </div>
 
-              {/* Exact Evidence-Tied Recommendation Reason */}
               <div className="ml-9 mt-2 p-2.5 bg-[#F7F5F0] rounded-[12px] border border-[#E4E0D8]/70 text-xs text-[#6B6A67] leading-relaxed">
                 <strong className="text-[#191817]">Why: </strong>
                 {quest.whyReason}
               </div>
 
-              {/* Card Actions */}
               <div className="ml-9 mt-3 flex items-center justify-between">
                 {!quest.isCompleted ? (
                   <button
@@ -152,7 +147,6 @@ export const StudyPlanScreen: React.FC<StudyPlanScreenProps> = ({
         })}
       </section>
 
-      {/* 3. Primary Action Button: "Start first quest" */}
       <div className="pt-2">
         <Button
           fullWidth
@@ -165,7 +159,6 @@ export const StudyPlanScreen: React.FC<StudyPlanScreenProps> = ({
         </Button>
       </div>
 
-      {/* 4. Purposeful Learning Footnote */}
       <div className="p-3.5 bg-[#F7F5F0] rounded-[14px] border border-[#E4E0D8] text-xs text-[#6B6A67] leading-relaxed">
         <span className="font-semibold text-[#191817]">Short, targeted bursts:</span> Tasks take 5–10 minutes each and explain the exact reason for practice, avoiding massive calendar backlogs.
       </div>

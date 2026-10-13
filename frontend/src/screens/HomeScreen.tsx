@@ -27,21 +27,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onNavigateNav,
 }) => {
   const { t, languageMode } = useLanguage();
-  // 68% full progress bar representing current level progress toward Level 5
   const progressPercent = 68;
 
-  // Mathematically consistent recoverable marks total derived from real category breakdown
   const totalRecoverableMarks =
     profile.breakdown.englishTerminology +
     profile.breakdown.timePressure +
     profile.breakdown.conceptGaps;
 
   const handleStartTodayMission = () => {
-    // Navigates directly into the related mission (refraction terminology bridge in WHY Engine)
     onNavigate('why-engine');
   };
 
-  // Subtle narrative scroll-in-view observation for Today's Mission checkpoint route
   const stepperRef = React.useRef<HTMLDivElement>(null);
   const [stepperInView, setStepperInView] = React.useState(false);
 
@@ -67,19 +63,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   return (
     <div className="space-y-5 pb-6 font-operational text-[#29251F]">
-      {/* 
-        ========================================================================
-        1. COASTAL HERO & PERSONALIZED GREETING SECTION
-        Self-contained hero card containing the wide Mediterranean coastal scenery,
-        temple, cliffs, and sailing vessels, with a soft parchment scrim for high text contrast.
-        Does not spill into or dictate the height of any subsequent card.
-        ========================================================================
-      */}
+      
       <section
         className="relative w-full rounded-2xl overflow-hidden border border-[#D7C4A5]/70 shadow-xs bg-[#F8F2E7]"
         aria-label="Student Greeting and Recovery Readiness"
       >
-        {/* Coastal landscape illustration strictly clipped within the hero section */}
+        
         <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
           <picture>
             <source srcSet="/assets/odyssey/hero-coastal.webp" type="image/webp" />
@@ -90,14 +79,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               aria-hidden="true"
             />
           </picture>
-          {/* Subtle warm parchment gradient scrim on the left to guarantee crystal-clear greeting readability */}
+          
           <div
             className="absolute inset-0 bg-gradient-to-r from-[#F8F2E7] via-[#F8F2E7]/85 to-[#F8F2E7]/20 sm:via-[#F8F2E7]/75 pointer-events-none"
             aria-hidden="true"
           />
         </div>
 
-        {/* Dynamic Personalized Greeting & Streak */}
         <div className="relative z-10 p-4 sm:p-5 flex flex-col justify-between min-h-[155px] sm:min-h-[165px]">
           <div className="max-w-[70%] sm:max-w-[72%] min-w-0">
             <h1 className="font-source-serif text-2xl sm:text-[26px] font-bold text-[#1E1B16] leading-tight break-words drop-shadow-[0_1px_1px_rgba(255,255,255,0.7)]">
@@ -122,20 +110,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* 
-        ========================================================================
-        2. RECOVERY POINTS & LEVEL SUMMARY CARD
-        Compact, balanced two-column upper area with bronze emblem, label, XP,
-        level badge, and an aligned neutral beige progress track with terracotta/gold fill.
-        ========================================================================
-      */}
       <section
         className="p-3.5 sm:p-5 rounded-2xl bg-[#F8F2E7] border border-[#D7C4A5]/70 shadow-xs space-y-3.5"
         aria-label="Recovery Points & Level Progress"
       >
-        {/* Upper two-column area with graceful wrap tolerance for narrow 320px screens */}
+        
         <div className="flex items-center justify-between gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
-          {/* Column 1: Emblem + Label + Value */}
+          
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-b from-[#FFF9ED] to-[#F5E2BE] border border-[#C7974A]/60 flex items-center justify-center text-[#C7974A] shrink-0 shadow-2xs">
               <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#C7974A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
@@ -155,7 +136,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           </div>
 
-          {/* Column 2: Level Badge (protected against collision) */}
           <div className="shrink-0 text-right">
             <span className="text-xs font-semibold text-[#A4482E] bg-[#FBEAE3] px-2.5 sm:px-3 py-1 rounded-full border border-[#C45C38]/25 shadow-2xs inline-block whitespace-nowrap">
               {t.levelTitle || 'Level 4: Mark Detective'}
@@ -163,7 +143,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
         </div>
 
-        {/* Level Progress Row */}
         <div className="space-y-1.5 pt-0.5">
           <div className="flex items-center justify-between text-xs font-operational font-medium gap-2">
             <span className="text-[#6D675E] shrink-0">
@@ -176,7 +155,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </span>
           </div>
 
-          {/* Neutral beige track with restrained terracotta/gold fill */}
           <div className="w-full h-2 bg-[#EFE5D5] rounded-full overflow-hidden border border-[#D7C4A5]/40">
             <div
               className="h-full bg-gradient-to-r from-[#C45C38] via-[#D99A2B] to-[#C7974A] rounded-full transition-all duration-300 ease-out"
@@ -190,23 +168,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* 
-        ========================================================================
-        3. AVOIDABLE LOSS SUMMARY CARD
-        Exact required structure:
-        - Top row: section heading & recoverable-marks badge.
-        - Summary: prominent recoverable-marks opportunity.
-        - Explanation: recovery categories text.
-        - Category row: 3 equal-width cards (Terminology, Pacing, Concepts).
-        - Dedicated footer: detailed recovery report action.
-        - Classical pillar decoration: lower-right edge at low prominence.
-        ========================================================================
-      */}
       <section
         className="p-3.5 sm:p-5 rounded-2xl bg-[#F8F2E7] border border-[#D7C4A5]/70 shadow-xs relative overflow-hidden space-y-3.5"
         aria-label="Avoidable Mark Loss Diagnostics"
       >
-        {/* Classical pillar etching positioned strictly at lower-right edge behind footer */}
+        
         <div
           className="absolute right-0 bottom-0 h-28 w-20 pointer-events-none opacity-10 select-none overflow-hidden"
           aria-hidden="true"
@@ -220,7 +186,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
 
         <div className="relative z-10">
-          {/* Top row: Section heading & recoverable-marks badge */}
+          
           <div className="flex items-center justify-between gap-2 mb-1.5">
             <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#A4482E] font-operational">
               {languageMode === 'odia' ? 'ସୁଯୋଗ ଚିହ୍ନଟ (AVOIDABLE LOSS)' : 'AVOIDABLE LOSS'}
@@ -230,23 +196,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </span>
           </div>
 
-          {/* Summary: Prominent recovered-marks opportunity */}
           <h2 className="font-source-serif text-xl sm:text-[22px] font-bold text-[#29251F] leading-snug break-words">
             {languageMode === 'odia'
               ? `${totalRecoverableMarks} ମାର୍କ ପୁନରୁଦ୍ଧାର ଯୋଗ୍ୟ`
               : `${totalRecoverableMarks} marks are recoverable`}
           </h2>
 
-          {/* Explanation: Supporting text describing recovery categories */}
           <p className="text-xs sm:text-[13px] text-[#6D675E] mt-1 leading-relaxed font-operational break-words font-medium">
             {languageMode === 'odia'
               ? t.recoverableMarksBreakdown
               : `${profile.breakdown.englishTerminology} from English terminology, ${profile.breakdown.timePressure} from time pressure, and ${profile.breakdown.conceptGaps} from concept gaps.`}
           </p>
 
-          {/* Category row: 3 equal-width cards with consistent height and padding */}
           <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 mt-3.5 text-center">
-            {/* Tile 1: Terminology (Muted Teal) */}
+            
             <div className="bg-[#FAF6EE] rounded-xl p-2 sm:p-2.5 border border-[#D7C4A5]/70 shadow-2xs flex flex-col items-center justify-between h-full min-h-[88px] sm:min-h-[92px] transition-transform hover:-translate-y-0.5">
               <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#E8EFF0] border border-[#C6D8D9] flex items-center justify-center text-[#0E7C7B] mb-1 shrink-0">
                 <BookOpen className="w-3.5 h-3.5" />
@@ -259,7 +222,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
             </div>
 
-            {/* Tile 2: Pacing (Antique Gold) */}
             <div className="bg-[#FAF6EE] rounded-xl p-2 sm:p-2.5 border border-[#D7C4A5]/70 shadow-2xs flex flex-col items-center justify-between h-full min-h-[88px] sm:min-h-[92px] transition-transform hover:-translate-y-0.5">
               <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#FFF4D6] border border-[#E8D7B8] flex items-center justify-center text-[#C7974A] mb-1 shrink-0">
                 <Hourglass className="w-3.5 h-3.5" />
@@ -272,7 +234,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
             </div>
 
-            {/* Tile 3: Concepts (Terracotta) */}
             <div className="bg-[#FAF6EE] rounded-xl p-2 sm:p-2.5 border border-[#D7C4A5]/70 shadow-2xs flex flex-col items-center justify-between h-full min-h-[88px] sm:min-h-[92px] transition-transform hover:-translate-y-0.5">
               <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#FBEAE3] border border-[#ECCDC2] flex items-center justify-center text-[#C45C38] mb-1 shrink-0">
                 <Target className="w-3.5 h-3.5" />
@@ -286,7 +247,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           </div>
 
-          {/* Dedicated Footer: Detailed recovery report action */}
           <div className="mt-3.5 pt-2.5 flex items-center justify-end border-t border-[#D7C4A5]/40">
             <button
               type="button"
@@ -300,19 +260,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* 
-        ========================================================================
-        4. TODAY’S MISSION — EXPEDITION MAP CARD
-        Separate responsive card after Avoidable Loss with clear vertical gap.
-        Decorative island map background layer, stable 4-node checkpoint route,
-        clean header alignment with wrapping duration/reward, and prominent CTA.
-        ========================================================================
-      */}
       <section
         className="p-3.5 sm:p-5 rounded-2xl bg-[#F8F2E7] border border-[#D7C4A5]/70 shadow-xs relative overflow-hidden space-y-4"
         aria-label="Today's Mission Card"
       >
-        {/* Mediterranean expedition island map background decoration strictly inside card */}
+        
         <div
           className="absolute inset-0 pointer-events-none opacity-15 select-none overflow-hidden"
           aria-hidden="true"
@@ -328,7 +280,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </picture>
         </div>
 
-        {/* Header: Responsive alignment (left: title/desc; right/wrap: duration & reward) */}
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div className="min-w-0">
             <h3 className="font-source-serif font-bold text-lg sm:text-xl text-[#344F5D] leading-tight truncate">
@@ -350,9 +301,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
         </div>
 
-        {/* 4-Node Expedition Stepper Map */}
         <div ref={stepperRef} className="relative z-10 py-1.5 px-0.5">
-          {/* Subtle dashed route connecting centers of nodes (top 20px on mobile, 22px on sm) */}
+          
           <div
             className={`absolute top-[20px] sm:top-[22px] left-[12.5%] right-[12.5%] h-0.5 border-t-2 border-dashed border-[#C45C38]/50 z-0 pointer-events-none transition-opacity duration-500 ease-out ${
               stepperInView ? 'opacity-100' : 'opacity-0'
@@ -361,7 +311,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           />
 
           <div className="grid grid-cols-4 gap-1 relative z-10">
-            {/* Node 1: Practice (Completed) */}
+            
             <div
               className={`flex flex-col items-center transition-all ${
                 stepperInView ? 'animate-checkpoint-in' : 'opacity-0'
@@ -384,7 +334,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </span>
             </div>
 
-            {/* Node 2: Mini Test (Active / Current) */}
             <div
               className={`flex flex-col items-center transition-all ${
                 stepperInView ? 'animate-checkpoint-in' : 'opacity-0'
@@ -398,7 +347,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 title="Mini Test (Current) - Click to start"
               >
                 <ScrollText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                {/* Active pulse dot */}
+                
                 <span className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#C45C38] ring-2 ring-white animate-pulse" />
               </button>
               <span className="text-[10px] sm:text-[11px] font-bold text-[#C45C38] leading-tight text-center mt-1.5 px-0.5 truncate w-full">
@@ -406,7 +355,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </span>
             </div>
 
-            {/* Node 3: Explore Concepts (Upcoming) */}
             <div
               className={`flex flex-col items-center transition-all ${
                 stepperInView ? 'animate-checkpoint-in' : 'opacity-0'
@@ -426,7 +374,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </span>
             </div>
 
-            {/* Node 4: Recover Marks (Locked) */}
             <div
               className={`flex flex-col items-center transition-all ${
                 stepperInView ? 'animate-checkpoint-in' : 'opacity-0'
@@ -459,7 +406,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
         </div>
 
-        {/* Mission Description & Primary Action Button */}
         <div className="relative z-10 space-y-3.5">
           <p className="text-xs text-[#6D675E] leading-relaxed font-medium">
             {t.todaysMissionDesc}
@@ -476,13 +422,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* 
-        ========================================================================
-        5. QUICK EXPEDITION NAVIGATORS (Distinct Secondary Section)
-        Separate, clearly spaced area below the mission card providing direct access
-        to Diagnostic Mock, Concept Map, and Study Plan without crowding the main mission.
-        ========================================================================
-      */}
       <section className="space-y-2.5 pt-1" aria-label="Expedition Tools">
         <div className="flex items-center justify-between px-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#6D675E] font-operational">
@@ -494,7 +433,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
 
         <div className="grid grid-cols-3 gap-2">
-          {/* Quick Action 1: Diagnostic Mock */}
+          
           <button
             type="button"
             onClick={() => onNavigate('mock-test')}
@@ -511,7 +450,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </span>
           </button>
 
-          {/* Quick Action 2: Concept Map */}
           <button
             type="button"
             onClick={() => onNavigateNav('map')}
@@ -528,7 +466,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </span>
           </button>
 
-          {/* Quick Action 3: Study Plan */}
           <button
             type="button"
             onClick={() => onNavigateNav('plan')}

@@ -19,17 +19,14 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
   const { languageMode, setLanguageMode, t } = useLanguage();
   const isOdia = languageMode === 'odia' || languageMode === 'bilingual';
 
-  // Start with all answer options unselected
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isFlagged, setIsFlagged] = useState<boolean>(false);
   const [confidence, setConfidence] = useState<'low' | 'medium' | 'high' | null>(null);
   
-  // Timer: 02:18 (138 seconds)
   const [secondsRemaining, setSecondsRemaining] = useState<number>(138);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(true);
 
-  // Countdown timer without distracting animations
   useEffect(() => {
     if (!isTimerRunning || secondsRemaining <= 0) return;
     const interval = setInterval(() => {
@@ -47,7 +44,6 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
   const currentQuestion = sampleMockQuestion;
   const isCorrect = selectedOptionId === currentQuestion.correctOptionId;
 
-  // Language text selection: Preserve selected answer, question index, timer, and submission!
   const options = isOdia ? currentQuestion.optionsOd : currentQuestion.optionsEn;
   const questionText = isOdia ? currentQuestion.questionTextOd : currentQuestion.questionTextEn;
   const explanation = isOdia ? currentQuestion.explanationOd : currentQuestion.explanationEn;
@@ -71,7 +67,7 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
 
   return (
     <div className="space-y-4 pb-8">
-      {/* 1. Header Metadata: Question 3 of 5 & Timer Display 02:18 */}
+      
       <div className="flex items-center justify-between gap-2 pt-1 pb-1">
         <div className="text-xs font-semibold text-[#191817] bg-white px-3 py-1.5 rounded-full border border-[#E4E0D8] shadow-2xs font-ui">
           {t.questionMeta}
@@ -83,7 +79,6 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
         </div>
       </div>
 
-      {/* 2. Metadata Bar: Subject · Concept · Marks · Flag & Language Control */}
       <div className="flex items-center justify-between text-xs text-[#6B6A67] px-0.5 gap-2">
         <div className="flex items-center gap-2 min-w-0 flex-1 truncate">
           <span className="font-semibold text-[#0E7C7B]">
@@ -114,7 +109,6 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
             <span className="hidden sm:inline">{isFlagged ? t.flaggedBtn : t.flagBtn}</span>
           </button>
 
-          {/* Language control: “ଓଡ଼ିଆରେ ଦେଖନ୍ତୁ” without resetting state */}
           <button
             type="button"
             onClick={toggleMockLanguage}
@@ -129,14 +123,12 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
         </div>
       </div>
 
-      {/* 3. Question Card (Visual Focus - Never clips or truncates) */}
       <Card className="p-5 border border-[#E4E0D8] shadow-xs">
         <h2 className="text-[17px] font-ui font-medium text-[#191817] leading-relaxed break-words">
           {questionText}
         </h2>
       </Card>
 
-      {/* 4. Four Answer Options (A, B, C, D) */}
       <div className="space-y-2.5">
         {options.map((opt) => (
           <AnswerOption
@@ -156,7 +148,6 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
         ))}
       </div>
 
-      {/* 5. Main Action: Submit answer (Disabled until selected) */}
       {!isSubmitted ? (
         <div className="pt-2">
           <Button
@@ -175,9 +166,9 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
           )}
         </div>
       ) : (
-        /* 6. Post-Submission Feedback, Confidence Selector, and Next-Step Action */
+        
         <div className="space-y-4 pt-1 animate-in fade-in duration-200">
-          {/* Concise Feedback Card */}
+          
           <Card
             variant={isCorrect ? 'soft-green' : 'soft-brand'}
             className="p-4 border"
@@ -214,7 +205,6 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
             </div>
           </Card>
 
-          {/* 7. Confidence Selector (Only after answering, non-obstructive) */}
           <div className="p-4 bg-white rounded-[14px] border border-[#E4E0D8]">
             <span className="text-xs font-semibold text-[#191817] block mb-1">
               {t.confidenceQuestion}
@@ -244,7 +234,6 @@ export const MockTestScreen: React.FC<MockTestScreenProps> = ({
             </div>
           </div>
 
-          {/* 8. Next-Step Action Buttons */}
           <div className="pt-1 space-y-2">
             <Button
               fullWidth

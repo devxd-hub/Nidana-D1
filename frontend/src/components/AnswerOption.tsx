@@ -20,7 +20,6 @@ export const AnswerOption: React.FC<AnswerOptionProps> = ({
   onClick,
   disabled = false,
 }) => {
-  // Determine state styles and text label
   let containerStyles = 'bg-white border-[#E4E0D8] text-[#191817] hover:border-[#C96442]/60';
   let badgeStyles = 'bg-[#F7F5F0] text-[#191817] border border-[#E4E0D8]';
   let statusBadge = null;
@@ -49,7 +48,6 @@ export const AnswerOption: React.FC<AnswerOptionProps> = ({
       badgeStyles = 'bg-[#F7F5F0] text-[#6B6A67] border-[#E4E0D8]';
     }
   } else if (isSelected) {
-    // Pale terracotta background (#FBEAE3) and terracotta border (#C96442) as specified in DESIGN.md
     containerStyles = 'bg-[#FBEAE3] border-[#C96442] text-[#191817] ring-1.5 ring-[#C96442] shadow-xs scale-[1.005]';
     badgeStyles = 'bg-[#C96442] text-white border-[#C96442]';
   }

@@ -17,19 +17,16 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
   const hasFinishedRef = useRef<boolean>(false);
   const safetyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Single guarded finish handler to prevent duplicate transitions
   const triggerFinish = useCallback(() => {
     if (hasFinishedRef.current) return;
     hasFinishedRef.current = true;
 
-    // Start 400ms fade out transition
     setIsFadingOut(true);
     setTimeout(() => {
       onFinish();
     }, 450);
   }, [onFinish]);
 
-  // Handle prefers-reduced-motion preference
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -43,7 +40,6 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
     }
   }, [triggerFinish]);
 
-  // Safety fallback timeout (max 16s) in case video is stalled or blocked
   useEffect(() => {
     safetyTimeoutRef.current = setTimeout(() => {
       if (!hasFinishedRef.current) {
@@ -59,7 +55,6 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
     };
   }, [triggerFinish]);
 
-  // Attempt video playback on mount
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -78,7 +73,6 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
         if (isMounted) {
           console.warn('Odyssey preloader video autoplay prevented or failed:', err);
           setHasError(true);
-          // Fallback progress animation if video playback is rejected
           let fakeProgress = 0;
           const interval = setInterval(() => {
             fakeProgress += 10;
@@ -120,7 +114,6 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
   const handleError = () => {
     console.warn('Odyssey preloader video failed to load.');
     setHasError(true);
-    // Smooth fallback timer if media fails
     setTimeout(() => {
       triggerFinish();
     }, 1200);
@@ -134,7 +127,7 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Full-Screen Pure Video Playback */}
+      
       <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#131211] z-0">
         {!hasError ? (
           <video
@@ -150,7 +143,7 @@ export const OdysseyPreloaderScreen: React.FC<OdysseyPreloaderScreenProps> = ({
             className="w-full h-full object-cover object-center transform scale-[1.01]"
           />
         ) : (
-          /* Fallback Poster Background if video is unsupported or fails to load */
+          
           <div className="w-full h-full relative bg-gradient-to-b from-[#1C1815] via-[#2A231D] to-[#131211]">
             <img
               src="/assets/preq-header.png"

@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface ProgressBarProps {
-  value: number; // current value
-  max?: number; // max value, default 100
+  value: number;
+  max?: number;
   label?: string;
   metricLabel?: string;
   color?: 'brand' | 'gold' | 'teal' | 'green' | 'gradient';

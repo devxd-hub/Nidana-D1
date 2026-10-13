@@ -14,7 +14,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
   onNavigate,
   concepts = sampleConceptNodes,
 }) => {
-  // Pre-select Refraction or null so learner can immediately see details or tap nodes
   const [selectedNode, setSelectedNode] = useState<ConceptNodeData | null>(null);
 
   const masteredCount = concepts.filter((c) => c.status === 'mastered').length;
@@ -31,7 +30,7 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
 
   return (
     <div className="space-y-4 pb-12">
-      {/* 1. Header */}
+      
       <header className="pt-2">
         <h1 className="font-serif-display text-2xl font-semibold text-[#191817] leading-tight">
           Your learning map
@@ -41,7 +40,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
         </p>
       </header>
 
-      {/* 2. Mastery & State Overview Strip */}
       <div className="grid grid-cols-4 gap-2 bg-white p-3 rounded-[14px] border border-[#E4E0D8] text-center shadow-2xs">
         <div>
           <div className="font-mono font-bold text-sm text-[#2F7D4F]">{masteredCount}</div>
@@ -61,12 +59,10 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
         </div>
       </div>
 
-      {/* 3. Linked Concept Cards (Safe for 360 px width without graph overlap) */}
       <div className="space-y-3 relative" role="list" aria-label="Concept sequence">
         {concepts.map((node, index) => {
           const isSelected = selectedNode?.id === node.id;
 
-          // Border and badge based on semantic status
           let borderClass = 'border-[#E4E0D8]';
           let statusBadgeClass = 'bg-[#F7F5F0] text-[#6B6A67]';
           let StatusIcon = Lock;
@@ -91,7 +87,7 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
 
           return (
             <div key={node.id} className="relative">
-              {/* Vertical connector line */}
+              
               {index < concepts.length - 1 && (
                 <div
                   className="absolute left-7 -bottom-3.5 w-0.5 h-3.5 bg-[#E4E0D8] z-0"
@@ -131,7 +127,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
                         )}
                       </div>
 
-                      {/* Explicit state label as required by DESIGN.md */}
                       <div className="mt-1 flex items-center gap-2">
                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusBadgeClass}`}>
                           {node.statusLabel}
@@ -159,7 +154,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
         })}
       </div>
 
-      {/* 4. Selected Concept Inspection Card */}
       {selectedNode && (
         <Card
           id="concept-detail-card"
@@ -202,7 +196,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
             {selectedNode.description}
           </p>
 
-          {/* Prerequisite relationship information */}
           {selectedNode.dependsOn && (
             <div className="text-xs text-[#6B6A67] mb-3 bg-white/80 p-2.5 rounded-xl border border-[#E4E0D8]/60">
               <strong className="text-[#191817]">Prerequisite requirement: </strong>
@@ -210,7 +203,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
             </div>
           )}
 
-          {/* Contextual Actions */}
           <div className="pt-2 border-t border-[#E4E0D8]/60">
             {selectedNode.status === 'language-friction' && (
               <Button
@@ -259,7 +251,6 @@ export const ConceptMapScreen: React.FC<ConceptMapScreenProps> = ({
         </Card>
       )}
 
-      {/* 5. Calming learning note */}
       <div className="p-3.5 bg-[#F7F5F0] rounded-[14px] border border-[#E4E0D8] text-xs text-[#6B6A67] leading-relaxed">
         <span className="font-semibold text-[#191817]">Relationship graph:</span> Concepts build progressively. You don't have to tackle everything at once—repair avoidable terminology and ratio friction first.
       </div>

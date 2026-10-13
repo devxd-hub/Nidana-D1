@@ -167,7 +167,7 @@ export const sampleRecoveryReportData = {
       recoverableMarks: 8,
       evidence: 'You answered correctly after the Odia term bridge.',
       recommendedAction: 'Start terminology bridge drill',
-      color: '#0E7C7B', // teal
+      color: '#0E7C7B',
     },
     {
       id: 'cause-2',
@@ -176,7 +176,7 @@ export const sampleRecoveryReportData = {
       recoverableMarks: 6,
       evidence: 'You answered correctly in the untimed retry.',
       recommendedAction: 'Pacing drill without penalty',
-      color: '#D99A2B', // gold
+      color: '#D99A2B',
     },
     {
       id: 'cause-3',
@@ -185,7 +185,7 @@ export const sampleRecoveryReportData = {
       recoverableMarks: 3,
       evidence: 'The ratio concept needs a short repair.',
       recommendedAction: 'Quick 5-minute ratio review',
-      color: '#C96442', // brand terracotta
+      color: '#C96442',
     },
   ],
 };

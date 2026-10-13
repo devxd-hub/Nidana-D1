@@ -1,5 +1,5 @@
 :root {
-  /* NIDANA Design Tokens from DESIGN.md */
+  
   --paper: #F3E7D2;
   --ink: #29251F;
   --card: #F8F2E7;
@@ -26,7 +26,6 @@
   --gray: #6D675E;
   --line: #D7C4A5;
 
-  /* Mediterranean Odyssey Design Tokens */
   --parchment: #F3E7D2;
   --cream: #F8F2E7;
   --dark-ink: #29251F;
@@ -65,7 +64,6 @@
     font-family: 'Newsreader', Georgia, serif;
   }
 
-  /* Universal high-contrast visible focus rings for keyboard accessibility */
   :focus-visible {
     outline: 2px solid var(--brand);
     outline-offset: 2px;
@@ -100,7 +98,6 @@
   font-family: 'Noto Sans Oriya', 'Newsreader', Georgia, serif;
 }
 
-/* Calm purposeful motion keyframes (150–250 ms) */
 @keyframes calmFadeIn {
   from {
     opacity: 0;
@@ -134,7 +131,6 @@
   animation: calmCheckPop 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Today's Mission checkpoint progressive narrative fade-in (scroll-in-view) */
 @keyframes checkpointFadeIn {
   from {
     opacity: 0;
@@ -150,7 +146,6 @@
   animation: checkpointFadeIn 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* prefers-reduced-motion accessibility compliance */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

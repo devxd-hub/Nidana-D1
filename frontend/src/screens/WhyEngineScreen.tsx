@@ -24,7 +24,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
   const [followupSubmitted, setFollowupSubmitted] = useState<boolean>(false);
   const [followupError, setFollowupError] = useState<boolean>(false);
 
-  // Follow-up verification challenge
   const followupQuestion = {
     text: 'Follow-up verification: When light passes from air into a glass prism and bends towards the normal, which term describes this phenomenon?',
     textOdia: 'ଅନୁବର୍ତ୍ତୀ ଯାଞ୍ଚ: ଆଲୋକ ବାୟୁରୁ କାଚ ପ୍ରିଜିମ ମଧ୍ୟକୁ ଗତି କରି ବଙ୍କା ହେବା ପ୍ରକ୍ରିୟାକୁ କ’ଣ କୁହାଯାଏ?',
@@ -53,7 +52,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
     setFollowupSubmitted(true);
     if (selectedFollowupOption === followupQuestion.correctId) {
       setFollowupError(false);
-      // Only mark weakness as recovered after follow-up question is correct!
       setPhase('recovered');
       if (onRepairCompleted) {
         onRepairCompleted(25, 4);
@@ -65,7 +63,7 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
 
   return (
     <div className="space-y-4 pb-12">
-      {/* 1. Header Metadata Trace */}
+      
       <div className="flex items-center justify-between gap-2 pt-1 pb-1">
         <div className="text-xs font-semibold text-[#2A5C8A] bg-[#E7EFF7] px-2.5 py-1 rounded-full border border-[#2A5C8A]/20 font-ui">
           {t.whyEngineTraceTag}
@@ -76,7 +74,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
         </div>
       </div>
 
-      {/* 2. Title & Context */}
       <div>
         <h1 className="font-serif-display text-2xl font-semibold text-[#191817] leading-tight break-words">
           {t.whyTitle}
@@ -91,10 +88,9 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
         </div>
       </div>
 
-      {/* Phase: Main Evidence Trail */}
       {phase === 'evidence' && (
         <div className="space-y-3 pt-1">
-          {/* Stage 1: What NIDANA noticed */}
+          
           <div className="relative">
             <Card variant="soft-blue" className="p-4 border border-[#2A5C8A]/20">
               <div className="flex items-start gap-3">
@@ -114,11 +110,10 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
                 </div>
               </div>
             </Card>
-            {/* Subtle connector line */}
+            
             <div className="w-0.5 h-3 bg-[#E4E0D8] mx-auto" aria-hidden="true" />
           </div>
 
-          {/* Stage 2: What NIDANA tested */}
           <div className="relative">
             <Card variant="soft-blue" className="p-4 border border-[#2A5C8A]/20">
               <div className="flex items-start gap-3">
@@ -141,7 +136,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
             <div className="w-0.5 h-3 bg-[#E4E0D8] mx-auto" aria-hidden="true" />
           </div>
 
-          {/* Stage 3: Probe result: Correct (Green-soft surface) */}
           <div className="relative">
             <Card variant="soft-green" className="p-4 border border-[#2F7D4F]/30">
               <div className="flex items-start gap-3">
@@ -169,7 +163,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
             <div className="w-0.5 h-3 bg-[#E4E0D8] mx-auto" aria-hidden="true" />
           </div>
 
-          {/* Stage 4: Verified cause */}
           <div className="relative">
             <Card variant="soft-blue" className="p-4 border border-[#2A5C8A]/20">
               <div className="flex items-start gap-3">
@@ -192,7 +185,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
             <div className="w-0.5 h-3 bg-[#E4E0D8] mx-auto" aria-hidden="true" />
           </div>
 
-          {/* Stage 5: What this means (Qualified Counterfactual) */}
           <Card variant="soft-blue" className="p-4 border border-[#2A5C8A]/20">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 rounded-full bg-[#2A5C8A] text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5">
@@ -215,7 +207,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
             </div>
           </Card>
 
-          {/* 6. Primary Action: Repair terminology gap */}
           <div className="pt-2">
             <Button
               fullWidth
@@ -230,7 +221,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
         </div>
       )}
 
-      {/* Phase: Language Bridge / Terminology Repair Mission */}
       {phase === 'bridge-learning' && (
         <Card variant="default" className="p-5 border border-[#E4E0D8] space-y-4 animate-in fade-in duration-200">
           <div className="flex items-center gap-2 text-[#0E7C7B]">
@@ -284,7 +274,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
         </Card>
       )}
 
-      {/* Phase: Follow-up Verification Question */}
       {phase === 'followup-question' && (
         <div className="space-y-4 animate-in fade-in duration-200">
           <div className="p-3 bg-[#FFF4D6] rounded-[14px] border border-[#D99A2B]/30 text-xs text-[#A66F0D] flex items-center justify-between">
@@ -340,7 +329,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
         </div>
       )}
 
-      {/* Phase: Recovered Moment (Only after follow-up question is correct!) */}
       {phase === 'recovered' && (
         <Card variant="soft-green" className="p-6 border border-[#2F7D4F]/30 text-center space-y-4 animate-in fade-in duration-200">
           <div className="w-14 h-14 mx-auto rounded-full bg-[#2F7D4F] text-white flex items-center justify-center shadow-xs">
@@ -395,7 +383,6 @@ export const WhyEngineScreen: React.FC<WhyEngineScreenProps> = ({
         </Card>
       )}
 
-      {/* Transparent evidence methodology note */}
       <div className="p-3.5 bg-[#F7F5F0] rounded-[14px] border border-[#E4E0D8] text-[11px] text-[#6B6A67] leading-relaxed flex items-start gap-2">
         <ShieldCheck className="w-4 h-4 text-[#0E7C7B] shrink-0 mt-0.5" />
         <span>

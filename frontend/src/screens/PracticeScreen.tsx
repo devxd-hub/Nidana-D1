@@ -19,7 +19,6 @@ export const PracticeScreen: React.FC<PracticeScreenProps> = ({
     if (onSelectMission) {
       onSelectMission(mission);
     }
-    // Route to appropriate mock, practice, or recovery flow
     if (mission.id === 'mission-diagnostic') {
       onNavigate('mock-test');
     } else if (mission.id === 'mission-language-bridge' || mission.id === 'mission-recovery-check') {
@@ -33,7 +32,7 @@ export const PracticeScreen: React.FC<PracticeScreenProps> = ({
 
   return (
     <div className="space-y-4 pb-6">
-      {/* Title & Subtitle */}
+      
       <div className="pt-2">
         <h1 className="font-serif-display text-2xl font-semibold text-[#191817] leading-tight">
           {t.practiceTitle}
@@ -43,7 +42,6 @@ export const PracticeScreen: React.FC<PracticeScreenProps> = ({
         </p>
       </div>
 
-      {/* Four Accessible Mission Cards */}
       <div className="space-y-3 pt-1">
         {sampleMissions.map((mission) => (
           <MissionCard
@@ -54,7 +52,6 @@ export const PracticeScreen: React.FC<PracticeScreenProps> = ({
         ))}
       </div>
 
-      {/* Calm learning assurance */}
       <div className="p-4 bg-white/70 rounded-[14px] border border-[#E4E0D8] text-xs text-[#6B6A67] leading-relaxed font-ui">
         <span className="font-semibold text-[#191817]">Calm learning game:</span> {t.calmNotice || 'Every mission isolates a specific variable—terminology, speed, or concepts—so you gain clarity without unnecessary exam pressure.'}
       </div>

@@ -17,13 +17,12 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
   const data = sampleRecoveryReportData;
 
   const handleStartRecoveryPlan = () => {
-    // Navigates to the Study Plan screen with the refraction/terminology quests in context
     onNavigateNav('plan');
   };
 
   return (
     <div className="space-y-4 pb-10">
-      {/* 1. Semantic Title & Subtitle */}
+      
       <header className="pt-2">
         <h1 className="font-serif-display text-2xl font-semibold text-[#191817] leading-tight">
           Mark Recovery Report
@@ -33,7 +32,6 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
         </p>
       </header>
 
-      {/* 2. Restrained Gold/Pale-Terracotta Hero Panel */}
       <Card
         variant="soft-gold"
         className="p-5 border border-[#D99A2B]/40 shadow-xs relative overflow-hidden"
@@ -56,7 +54,6 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
           </div>
         </div>
 
-        {/* Confidence-Preserving Reassurance */}
         <div className="mt-4 p-3.5 bg-white/90 rounded-[14px] border border-[#D99A2B]/20">
           <div className="flex items-start gap-2.5">
             <ShieldCheck className="w-4 h-4 text-[#2F7D4F] shrink-0 mt-0.5" aria-hidden="true" />
@@ -68,7 +65,6 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
         </div>
       </Card>
 
-      {/* 3. Section Heading */}
       <div className="flex items-center justify-between pt-1">
         <h2 className="font-ui font-semibold text-[17px] text-[#191817]">
           Verified causes of lost marks
@@ -76,9 +72,8 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
         <span className="text-xs text-[#6B6A67]">Evidence tested</span>
       </div>
 
-      {/* 4. Three Separate White Cause Cards */}
       <section className="space-y-3" aria-label="Causes of lost marks">
-        {/* Cause 1: English terminology friction */}
+        
         <Card
           variant="default"
           className="p-4 sm:p-5 border border-[#E4E0D8] hover:border-[#0E7C7B]/40 transition-colors shadow-2xs"
@@ -119,7 +114,6 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
           </div>
         </Card>
 
-        {/* Cause 2: Time pressure */}
         <Card
           variant="default"
           className="p-4 sm:p-5 border border-[#E4E0D8] hover:border-[#D99A2B]/40 transition-colors shadow-2xs"
@@ -160,7 +154,6 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
           </div>
         </Card>
 
-        {/* Cause 3: Prerequisite gap */}
         <Card
           variant="default"
           className="p-4 sm:p-5 border border-[#E4E0D8] hover:border-[#C96442]/40 transition-colors shadow-2xs"
@@ -202,7 +195,6 @@ export const MarkRecoveryReportScreen: React.FC<MarkRecoveryReportScreenProps> =
         </Card>
       </section>
 
-      {/* 5. Primary Action: Start recovery plan */}
       <footer className="pt-2 space-y-2.5">
         <Button
           fullWidth

@@ -50,7 +50,6 @@ const LANGUAGE_OPTIONS: LanguageOption[] = [
   },
 ];
 
-// Normalize language from possible initial values
 const normalizeLanguageValue = (val: string): LearningLanguageId | null => {
   if (val.startsWith('Odia')) return 'Odia';
   if (val.startsWith('Hindi')) return 'Hindi';
@@ -58,7 +57,6 @@ const normalizeLanguageValue = (val: string): LearningLanguageId | null => {
   return null;
 };
 
-// Check if class value is one of 9, 10, 12
 export const isAllowedClass = (val: string): boolean => {
   const trimmed = val.trim();
   return (
@@ -78,7 +76,6 @@ export const parseClassLevel = (val: string): 9 | 10 | 12 => {
   return 12;
 };
 
-// Field 1: Name validation
 export const validateName = (rawName: string): { isValid: boolean; error?: string } => {
   const trimmed = rawName.trim();
   if (trimmed === '') {
@@ -87,7 +84,6 @@ export const validateName = (rawName: string): { isValid: boolean; error?: strin
   return { isValid: true };
 };
 
-// Field 2: Age validation
 export const validateAge = (rawAge: string): { isValid: boolean; error?: string } => {
   const trimmed = rawAge.trim();
   if (trimmed === '') {
@@ -99,7 +95,6 @@ export const validateAge = (rawAge: string): { isValid: boolean; error?: string 
   return { isValid: true };
 };
 
-// Field 3: Class validation
 export const validateClass = (rawClass: string): { isValid: boolean; error?: string } => {
   const trimmed = rawClass.trim();
   if (!trimmed || trimmed === 'Select your class' || !isAllowedClass(trimmed)) {
@@ -108,7 +103,6 @@ export const validateClass = (rawClass: string): { isValid: boolean; error?: str
   return { isValid: true };
 };
 
-// Field 4: Language validation
 export const validateLanguages = (
   languages: LearningLanguageId[]
 ): { isValid: boolean; error?: string } => {
@@ -136,7 +130,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
   onBack,
   initialValues,
 }) => {
-  // Authoritative form state
   const [name, setName] = useState<string>(() => initialValues?.name || '');
   const [age, setAge] = useState<string>(() =>
     initialValues?.age !== undefined && initialValues?.age !== null
@@ -154,7 +147,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
     return Array.from(new Set(normalized)).slice(0, 2);
   });
 
-  // Validation state
   const [fieldErrors, setFieldErrors] = useState<{
     name?: string;
     age?: string;
@@ -166,7 +158,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
   const [languageLimitNotice, setLanguageLimitNotice] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Element refs
   const topAlertRef = useRef<HTMLDivElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const ageInputRef = useRef<HTMLInputElement>(null);
@@ -174,7 +165,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
   const languagesSectionRef = useRef<HTMLDivElement>(null);
   const firstLanguageButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Check if all fields are valid
   const checkAllValid = useCallback((): boolean => {
     return (
       validateName(name).isValid &&
@@ -184,7 +174,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
     );
   }, [name, age, studentClass, selectedLanguages]);
 
-  // Error clearing behavior
   useEffect(() => {
     if (showFormLevelAlert) {
       if (checkAllValid()) {
@@ -193,7 +182,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
     }
   }, [name, age, studentClass, selectedLanguages, showFormLevelAlert, checkAllValid]);
 
-  // Field change handlers
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setName(val);
@@ -271,7 +259,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
     }, 120);
   };
 
-  // Form submission handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
@@ -335,14 +322,11 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
 
   return (
     <div className="w-full max-w-[430px] min-w-0 min-h-screen mx-auto bg-[#F3E7D2] text-[#191817] flex flex-col border-x border-[#CBB99E]/80 shadow-2xl relative overflow-x-hidden font-operational selection:bg-[#FBEAE3] selection:text-[#A94F32]">
-      {/* 
-        1. TOP HEADER WITH PROPER PREQ.PNG WATERCOLOR ARTWORK
-        Full-width, clearly visible Mediterranean watercolor painting (temple, cliff, sun, sea, sailboats)
-      */}
+      
       <div className="relative w-full overflow-hidden bg-[#E2D5C3]">
-        {/* NIDANA App Bar atop artwork with soft top vignette */}
+        
         <div className="absolute top-0 inset-x-0 z-20 px-4 sm:px-5 pt-3.5 pb-3 flex items-center justify-between bg-gradient-to-b from-[#191817]/60 via-[#191817]/30 to-transparent">
-          {/* Brand Mark and Wordmark - Clickable to redirect to Home */}
+          
           <button
             type="button"
             onClick={onBack || (() => { if (typeof window !== 'undefined') window.location.hash = '#home'; })}
@@ -362,7 +346,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
             </div>
           </button>
 
-          {/* Ornamental geometric diamond marks */}
           <div className="flex items-center gap-2 shrink-0 opacity-90 text-white" aria-hidden="true">
             <div className="w-2 h-2 rotate-45 bg-[#D99A2B]" />
             <div className="w-5 h-px bg-white/60" />
@@ -370,7 +353,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
           </div>
         </div>
 
-        {/* The full Mediterranean Watercolor Landscape from theme/preq.png */}
         <picture className="w-full block">
           <source srcSet="/assets/preq-header.webp" type="image/webp" />
           <img
@@ -380,7 +362,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
           />
         </picture>
 
-        {/* Deckled / Torn parchment horizontal edge seam transition */}
         <div className="relative -mt-4 w-full overflow-hidden leading-none z-10 pointer-events-none" aria-hidden="true">
           <svg
             viewBox="0 0 1200 32"
@@ -392,7 +373,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
         </div>
       </div>
 
-      {/* 2. ODYSSEY SETUP DIVIDER */}
       <div className="w-full px-4 sm:px-5 pt-1.5 pb-2 relative z-10">
         <h1 className="sr-only">Learning Profile Setup</h1>
         <div className="flex items-center justify-center gap-2" aria-hidden="true">
@@ -408,12 +388,8 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
         </div>
       </div>
 
-      {/* 
-        4. FORM SURFACE (Section 5)
-        Parchment continuous surface with botanical olive branch and windrose compass watermarks
-      */}
       <main className="flex-1 px-4 sm:px-5 pt-0 pb-12 sm:pb-16 overflow-y-auto relative z-10">
-        {/* Faded Nautical Windrose Compass Watermark on the right */}
+        
         <svg
           className="absolute top-10 right-2 w-24 h-24 text-[#C69A4B]/20 pointer-events-none select-none z-0"
           viewBox="0 0 100 100"
@@ -433,7 +409,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
           <circle cx="50" cy="50" r="2.5" fill="currentColor" />
         </svg>
 
-        {/* Faded Classical Botanical Olive Branch Watermark on left edge */}
         <svg
           className="absolute top-2 -left-2 w-9 h-36 text-[#77785B]/20 pointer-events-none select-none z-0"
           viewBox="0 0 40 100"
@@ -449,7 +424,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
           <path d="M20 22 Q14 16 13 8 Q18 12 20 22" fill="currentColor" fillOpacity="0.15" strokeWidth="0.8" />
         </svg>
 
-        {/* Form-Level Alert Area at top of form */}
         {showFormLevelAlert && (
           <div
             ref={topAlertRef}
@@ -468,9 +442,8 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
           </div>
         )}
 
-        {/* FORM FIELDS */}
         <form onSubmit={handleSubmit} noValidate className="space-y-4 relative z-10">
-          {/* FIELD 1: NAME (Section 6) */}
+          
           <div className="space-y-1.5 scroll-mt-6 sm:scroll-mt-8">
             <div className="flex items-center gap-2">
               <picture className="w-4 h-4 shrink-0 block">
@@ -523,7 +496,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
             )}
           </div>
 
-          {/* FIELD 2: AGE (Section 7) */}
           <div className="space-y-1.5 scroll-mt-6 sm:scroll-mt-8">
             <div className="flex items-center gap-2">
               <picture className="w-4 h-4 shrink-0 block">
@@ -577,7 +549,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
             )}
           </div>
 
-          {/* FIELD 3: CLASS (Section 8) */}
           <div className="space-y-1.5 scroll-mt-6 sm:scroll-mt-8">
             <div className="flex items-center gap-2">
               <picture className="w-4 h-4 shrink-0 block">
@@ -644,7 +615,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
             )}
           </div>
 
-          {/* FIELD 4: LEARNING LANGUAGES (Section 9) */}
           <div
             ref={languagesSectionRef}
             className="space-y-1.5 pt-1 scroll-mt-6 sm:scroll-mt-8"
@@ -680,7 +650,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
                 </span>
               </div>
 
-              {/* Zero-shift helper / notice container */}
               <div className="min-h-[20px] flex items-center mt-0.5">
                 {languageLimitNotice ? (
                   <p
@@ -699,7 +668,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
               </div>
             </div>
 
-            {/* Language Cards: 3 in a horizontal row matching Reference Image 1 */}
             <div className="grid grid-cols-3 gap-2 sm:gap-2.5 pt-1">
               {LANGUAGE_OPTIONS.map((opt, idx) => {
                 const isSelected = selectedLanguages.includes(opt.id);
@@ -720,7 +688,7 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
                         : 'bg-[#F8F2E7] border-[#CBB99E] hover:bg-[#F3EBDD] hover:border-[#A94F32]/50'
                     }`}
                   >
-                    {/* Top row: Circular selection indicator in top-left */}
+                    
                     <div className="flex items-center justify-between w-full">
                       <div
                         className={`w-4.5 h-4.5 rounded-full flex items-center justify-center transition-colors shrink-0 ${
@@ -738,7 +706,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
                       )}
                     </div>
 
-                    {/* Centered 2D classical illustration / Vector SVG */}
                     <div className="my-1 flex items-center justify-center w-full h-11 shrink-0">
                       {opt.id === 'English' ? (
                         <img
@@ -764,7 +731,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
                       )}
                     </div>
 
-                    {/* Bottom labels: Name & Native Script */}
                     <div className="w-full text-left min-w-0">
                       <span
                         className={`font-operational text-xs sm:text-[13px] block truncate leading-tight ${
@@ -794,7 +760,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
               })}
             </div>
 
-            {/* Error displayed directly below languages field */}
             {fieldErrors.languages && (
               <p
                 id="languages-error"
@@ -807,17 +772,13 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
             )}
           </div>
 
-          {/* 
-            5. PRIMARY CONTINUE BUTTON (Section 10)
-            Full-width rounded rectangle in muted terracotta (#A94F32) with faint laurel ornaments
-          */}
           <div className="pt-4 pb-2">
             <button
               type="submit"
               disabled={isSubmitting}
               className="w-full min-h-[52px] h-[54px] px-6 rounded-2xl bg-[#A94F32] hover:bg-[#8F3E24] active:scale-[0.99] disabled:opacity-75 disabled:cursor-wait text-[#F8F2E7] font-source-serif font-medium text-lg tracking-wide shadow-xs hover:shadow-sm transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A94F32] touch-manipulation relative overflow-hidden"
             >
-              {/* Extremely faint classical laurel leaf branch ornaments on left and right */}
+              
               <div className="absolute left-4 inset-y-0 flex items-center pointer-events-none opacity-25" aria-hidden="true">
                 <svg className="w-10 h-5 text-[#F8F2E7]" viewBox="0 0 50 20" fill="currentColor">
                   <path d="M5,10 Q15,4 25,10 Q35,16 45,10" stroke="currentColor" strokeWidth="1.2" fill="none" />
@@ -850,7 +811,6 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
           </div>
         </form>
 
-        {/* Subtle Classical Odyssey Footer Note */}
         <div className="mt-6 text-center" aria-hidden="true">
           <p className="text-[11px] font-operational text-[#68645E]">
             NIDANA adapts questions to bridge gaps between Odia & English.

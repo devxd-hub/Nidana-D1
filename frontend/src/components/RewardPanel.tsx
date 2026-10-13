@@ -33,7 +33,7 @@ export const RewardPanel: React.FC<RewardPanelProps> = ({
       aria-labelledby="reward-modal-title"
     >
       <div className="w-full max-w-sm bg-white rounded-[24px] p-6 shadow-2xl border border-[#E4E0D8] text-center relative overflow-hidden animate-calm-fade-in">
-        {/* Soft calm background glow */}
+        
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-32 bg-[#FFF4D6] rounded-full blur-2xl -z-10 opacity-70 pointer-events-none" />
 
         <button
@@ -44,7 +44,6 @@ export const RewardPanel: React.FC<RewardPanelProps> = ({
           <X className="w-4 h-4" />
         </button>
 
-        {/* Small subtle emblem pop (240ms) */}
         <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[#FFF4D6] border border-[#D99A2B]/40 flex items-center justify-center shadow-xs animate-check-pop">
           <Trophy className="w-7 h-7 text-[#D99A2B]" aria-hidden="true" />
         </div>
@@ -53,7 +52,6 @@ export const RewardPanel: React.FC<RewardPanelProps> = ({
           {title}
         </h3>
 
-        {/* Meaning explanation */}
         {subtitle && (
           <p className="text-sm text-[#6B6A67] mb-4 leading-relaxed font-ui">
             {subtitle}
@@ -88,7 +86,6 @@ export const RewardPanel: React.FC<RewardPanelProps> = ({
           </div>
         )}
 
-        {/* What happens next guidance */}
         <p className="text-[11px] text-[#6B6A67] mb-4">
           Next: Progress has been reflected in your Concept Map and Study Plan.
         </p>

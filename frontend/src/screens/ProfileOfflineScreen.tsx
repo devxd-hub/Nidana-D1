@@ -33,18 +33,15 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
   const [queuedAttempts, setQueuedAttempts] = useState<QueuedAttempt[]>([]);
   const [syncNotice, setSyncNotice] = useState<string | null>(null);
 
-  // Load persisted queued attempts from storageService
   useEffect(() => {
     const attempts = storageService.getQueuedAttempts();
     setQueuedAttempts(attempts);
   }, []);
 
-  // Monitor real browser network events
   useEffect(() => {
     const handleOnline = () => {
       setBrowserOnline(true);
       if (!isOfflineMode) {
-        // Trigger simulated sync upon network return
         handleSimulateSync();
       }
     };
@@ -63,7 +60,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
     };
   }, [isOfflineMode]);
 
-  // Demonstrate controlled prototype sync queue lifecycle
   const handleSimulateSync = () => {
     if (isOfflineMode) {
       setSyncNotice('Cannot sync while in simulated offline mode. Switch to online first.');
@@ -75,7 +71,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
 
     setTimeout(() => {
       onSetSyncState('synced');
-      // Mark queued attempts as synced locally
       const updated = queuedAttempts.map((a) => ({ ...a, status: 'synced' as const, timestamp: 'Synced just now' }));
       setQueuedAttempts(updated);
       storageService.saveQueuedAttempts(updated);
@@ -100,7 +95,7 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
 
   return (
     <div className="space-y-4 pb-12">
-      {/* 1. Header with exact title & subtitle */}
+      
       <header className="pt-2">
         <h1 className="font-serif-display text-2xl font-semibold text-[#191817] leading-tight">
           Offline mode
@@ -110,7 +105,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         </p>
       </header>
 
-      {/* 2. Student Profile Summary Card */}
       <Card variant="default" className="p-4 border border-[#E4E0D8] shadow-2xs">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-[#FBEAE3] border border-[#C96442]/30 flex items-center justify-center font-serif-display font-bold text-lg text-[#C96442]">
@@ -131,7 +125,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
           </div>
         </div>
 
-        {/* Profile Setup Prerequisite details & editor button */}
         <div className="mt-3 pt-3 border-t border-[#E4E0D8]/70 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2 flex-wrap">
             {profile.studentClass ? (
@@ -161,7 +154,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         </div>
       </Card>
 
-      {/* 3. Real Browser Network & Offline Mode Controller */}
       <Card variant={isOfflineMode ? 'soft-gold' : 'default'} className="p-4 border border-[#E4E0D8]">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
@@ -204,14 +196,12 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         </div>
       </Card>
 
-      {/* 4. Reusable SyncStatus Component with 5 Supported States */}
       <SyncStatus
         state={syncState}
         queuedCount={activeQueuedCount}
         onRetry={handleSimulateSync}
       />
 
-      {/* Truthful Sync State Transition Toolbar (Prototype) */}
       <div className="p-3 bg-white rounded-[14px] border border-[#E4E0D8] space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="font-semibold text-[#191817]">Prototype Sync Lifecycle:</span>
@@ -257,9 +247,8 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         )}
       </div>
 
-      {/* 5. Four Explicit Offline Pack Cards from DESIGN.md */}
       <section className="space-y-3 pt-1" aria-label="Offline capabilities">
-        {/* Card 1: Diagnostic pack downloaded — Available offline */}
+        
         <Card className="p-4 border border-[#E4E0D8] shadow-2xs">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#E3F2F1] text-[#0E7C7B] flex items-center justify-center shrink-0 mt-0.5">
@@ -284,7 +273,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
           </div>
         </Card>
 
-        {/* Card 2: 2 attempts queued — Queued */}
         <Card className="p-4 border border-[#E4E0D8] shadow-2xs">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#FFF4D6] text-[#A66F0D] flex items-center justify-center shrink-0 mt-0.5">
@@ -303,7 +291,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
                 They will sync automatically when the network returns.
               </p>
 
-              {/* Dynamic list of persisted attempts */}
               <div className="mt-2.5 space-y-1.5">
                 {queuedAttempts.map((item) => (
                   <div
@@ -329,7 +316,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
           </div>
         </Card>
 
-        {/* Card 3: Offline diagnosis available — Available offline */}
         <Card className="p-4 border border-[#E4E0D8] shadow-2xs">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#E7EFF7] text-[#2A5C8A] flex items-center justify-center shrink-0 mt-0.5">
@@ -354,7 +340,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
           </div>
         </Card>
 
-        {/* Card 4: Deep AI diagnosis — Requires connection */}
         <Card className="p-4 border border-[#E4E0D8] shadow-2xs">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#F7F5F0] text-[#6B6A67] flex items-center justify-center shrink-0 mt-0.5">
@@ -380,7 +365,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         </Card>
       </section>
 
-      {/* 6. Earned Badges Section */}
       <section className="pt-2" aria-label="Earned achievements">
         <h3 className="font-ui font-semibold text-sm text-[#191817] mb-2 flex items-center gap-1.5">
           <Award className="w-4 h-4 text-[#D99A2B]" />
@@ -406,7 +390,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         </div>
       </section>
 
-      {/* 7. Language Comfort Setting */}
       <section className="pt-2" aria-label="Language preferences">
         <h3 className="font-ui font-semibold text-sm text-[#191817] mb-2 flex items-center gap-1.5">
           <Globe className="w-4 h-4 text-[#0E7C7B]" />
@@ -435,7 +418,6 @@ export const ProfileOfflineScreen: React.FC<ProfileOfflineScreenProps> = ({
         </div>
       </section>
 
-      {/* Truthful Network Explanation Banner */}
       <div className="p-3.5 bg-[#F7F5F0] rounded-[14px] border border-[#E4E0D8] text-xs text-[#6B6A67] leading-relaxed flex items-start gap-2">
         <AlertCircle className="w-4 h-4 text-[#C96442] shrink-0 mt-0.5" />
         <span>

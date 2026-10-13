@@ -72,7 +72,6 @@ function MainApp() {
   }, []);
   const [profile, setProfile] = useState<StudentProfile>(() => storageService.getProfile());
   
-  // Initialize quests with persistence & weakness recovery sync
   const [quests, setQuests] = useState<Quest[]>(() => {
     const completedIds = storageService.getCompletedQuestIds();
     const isRecovered = storageService.isWeaknessRecovered(RECOVERY_WEAKNESS_KEY);
@@ -82,7 +81,6 @@ function MainApp() {
     }));
   });
 
-  // Initialize concepts with persistence & weakness recovery sync
   const [concepts, setConcepts] = useState<ConceptNodeData[]>(() => {
     const isRecovered = storageService.isWeaknessRecovered(RECOVERY_WEAKNESS_KEY);
     if (isRecovered) {
@@ -105,7 +103,6 @@ function MainApp() {
   const [syncState, setSyncState] = useState<SyncState>(() => storageService.getSyncState());
   const { languageMode } = useLanguage();
 
-  // Reward celebration modal state
   const [rewardModal, setRewardModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -118,7 +115,6 @@ function MainApp() {
     title: '',
   });
 
-  // Sync state with URL hash so back/forward and page refresh work cleanly
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace(/^#\/?/, '') as ScreenId;
@@ -147,7 +143,6 @@ function MainApp() {
     navigateTo(dest);
   }, [navigateTo]);
 
-  // Map any screen to one of the 5 bottom navigation destinations
   const getNavDestination = (screen: ScreenId): NavDestination => {
     switch (screen) {
       case 'home':
@@ -179,13 +174,10 @@ function MainApp() {
     }
   };
 
-  // When a repair is completed in WHY engine
-  // Rule: Only award Recovery Points once; prevent duplicate rewards on revisit/double-click!
   const handleRepairCompleted = (xp: number, marks: number) => {
     const alreadyRecovered = storageService.isWeaknessRecovered(RECOVERY_WEAKNESS_KEY);
 
     if (!alreadyRecovered) {
-      // Award Recovery Points only on first verified recovery!
       const updatedProfile = {
         ...profile,
         currentXp: profile.currentXp + xp,
@@ -200,7 +192,6 @@ function MainApp() {
       storageService.saveProfile(updatedProfile);
       storageService.markWeaknessRecovered(RECOVERY_WEAKNESS_KEY);
 
-      // Update quest-1 (Refraction terminology bridge) in Study Plan
       const updatedQuests = quests.map((q) =>
         q.id === 'quest-1' ? { ...q, isCompleted: true } : q
       );
@@ -209,7 +200,6 @@ function MainApp() {
       storageService.saveCompletedQuestIds(completedIds);
     }
 
-    // Update concept status to mastered/repaired
     setConcepts((prev) =>
       prev.map((c) =>
         c.id === 'c-refraction'
@@ -224,7 +214,6 @@ function MainApp() {
       )
     );
 
-    // Show celebration reward only on new recovery, or calm reminder if revisited
     setRewardModal({
       isOpen: true,
       title: languageMode === 'odia' ? 'ଦୁର୍ବଳତା ପୁନରୁଦ୍ଧାର ହେଲା!' : 'Weakness Recovered!',
@@ -237,7 +226,6 @@ function MainApp() {
     });
   };
 
-  // When a quest is marked complete in Study Plan
   const handleCompleteQuest = (questId: string, xp: number) => {
     const quest = quests.find((q) => q.id === questId);
     const alreadyDone = quest?.isCompleted;
@@ -298,7 +286,6 @@ function MainApp() {
     storageService.setProfileSetupComplete(true);
     navigateTo('home');
 
-    // Reset lock after transition completes
     setTimeout(() => {
       isSubmittingSetupRef.current = false;
     }, 500);
@@ -398,7 +385,6 @@ function MainApp() {
         />
       )}
 
-      {/* Reward celebration modal */}
       <RewardPanel
         isOpen={rewardModal.isOpen}
         title={rewardModal.title}

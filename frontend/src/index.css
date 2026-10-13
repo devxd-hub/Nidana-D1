@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
-/* App mobile container constraint & touch ergonomics */
 .app-container {
   width: 100%;
   max-width: 430px;
@@ -12,7 +11,6 @@
   background-color: var(--paper);
 }
 
-/* Custom scrollbar subtle treatment */
 ::-webkit-scrollbar {
   width: 4px;
 }

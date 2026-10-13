@@ -43,16 +43,9 @@ export const AppShell: React.FC<AppShellProps> = ({
 
   return (
     <div className="min-h-screen bg-[#F0EDE6] flex justify-center text-[#191817]">
-      {/* 
-        Single-column student content container:
-        - Target width: 360–430 px
-        - Maximum student-facing content width: 430 px
-        - Centered with surrounding whitespace on tablets/desktops
-        - Classical parchment aesthetic with warm borders
-      */}
+      
       <div className="w-full max-w-[430px] min-h-screen bg-[#F3E7D2] shadow-2xl flex flex-col relative border-x border-[#D7C4A5]/70 overflow-x-hidden font-operational text-[#29251F]">
-        
-        {/* Reusable Mobile App Header - Compact Classical Theme */}
+
         <header className={`sticky top-0 z-30 px-4 py-2.5 flex items-center justify-between min-h-[52px] transition-colors ${currentScreen === 'home' ? 'bg-[#FAF5ED]/50 backdrop-blur-xs border-b border-[#D7C4A5]/40' : 'bg-[#F8F2E7]/95 backdrop-blur-md border-b border-[#D7C4A5]/60'}`}>
           {isSubScreen ? (
             <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -94,9 +87,8 @@ export const AppShell: React.FC<AppShellProps> = ({
             </button>
           )}
 
-          {/* Right Header Status Badges & Quick Language Toggle */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* Global Language Toggle Button */}
+            
             <button
               type="button"
               onClick={toggleLanguage}
@@ -129,7 +121,6 @@ export const AppShell: React.FC<AppShellProps> = ({
           </div>
         </header>
 
-        {/* Offline notice bar (when offline simulation is active) */}
         {isOfflineMode && (
           <div className="bg-[#FFF4D6] border-b border-[#D99A2B]/30 px-4 py-2 text-xs text-[#A66F0D] flex items-center justify-between">
             <div className="flex items-center gap-1.5">
@@ -149,16 +140,10 @@ export const AppShell: React.FC<AppShellProps> = ({
           </div>
         )}
 
-        {/* 
-          Main scrollable content container:
-          - 16 px side gutters: px-4
-          - Generous bottom padding: pb-28 to pb-32 to guarantee the bottom bar NEVER covers the page's last action!
-        */}
         <main className="flex-1 px-4 pt-3 pb-28 md:pb-32 overflow-y-auto">
           {children}
         </main>
 
-        {/* Fixed, Safe-Area-Aware Bottom Navigation */}
         <BottomNavigation
           currentDestination={currentNav}
           onNavigate={onNavigateNav}

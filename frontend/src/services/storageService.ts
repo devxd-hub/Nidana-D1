@@ -20,7 +20,6 @@ const STORAGE_KEYS = {
   PROFILE_SETUP_DONE: 'nidana_profile_setup_done',
 };
 
-// Initial deterministic queued attempts matching DESIGN.md
 const INITIAL_QUEUED_ATTEMPTS: QueuedAttempt[] = [
   {
     id: 'attempt-1',
@@ -110,7 +109,6 @@ class StorageService {
       if (data) {
         return JSON.parse(data) as QueuedAttempt[];
       }
-      // Initialize with default attempts if none exist yet
       this.saveQueuedAttempts(INITIAL_QUEUED_ATTEMPTS);
       return INITIAL_QUEUED_ATTEMPTS;
     } catch (e) {
@@ -179,7 +177,6 @@ class StorageService {
     }
   }
 
-  // Duplicate reward guard
   isWeaknessRecovered(weaknessId: string): boolean {
     if (!this.isAvailable()) return false;
     try {

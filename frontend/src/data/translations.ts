@@ -1,20 +1,17 @@
 export type LanguageMode = 'odia' | 'bilingual' | 'english';
 
 export interface TranslationDictionary {
-  // Navigation
   navHome: string;
   navPractice: string;
   navMap: string;
   navPlan: string;
   navProfile: string;
 
-  // Header
   appTitle: string;
   teamAttribution: string;
   offlineBadge: string;
   xpLabel: string;
 
-  // Home
   greeting: string;
   homeSubtitle: string;
   streakText: string;
@@ -32,12 +29,10 @@ export interface TranslationDictionary {
   todaysMissionDesc: string;
   startMissionBtn: string;
 
-  // Practice
   practiceTitle: string;
   practiceSubtitle: string;
   calmNotice: string;
 
-  // Mock Test
   questionMeta: string;
   physicsRefraction: string;
   marksBadge: string;
@@ -56,7 +51,6 @@ export interface TranslationDictionary {
   continueToReportBtn: string;
   investigateWhyBtn: string;
 
-  // Report
   reportTitle: string;
   reportSubtitle: string;
   reportHeroBadge: string;
@@ -68,7 +62,6 @@ export interface TranslationDictionary {
   startRecoveryPlanBtn: string;
   inspectTraceBtn: string;
 
-  // WHY Engine
   whyEngineTraceTag: string;
   whyTitle: string;
   whyContext: string;
@@ -85,7 +78,6 @@ export interface TranslationDictionary {
   meansContent: string;
   repairGapBtn: string;
 
-  // Concept Map
   mapTitle: string;
   mapSubtitle: string;
   masteredLabel: string;
@@ -93,13 +85,11 @@ export interface TranslationDictionary {
   gapsLabel: string;
   lockedLabel: string;
 
-  // Study Plan
   planTitle: string;
   planSubtitle: string;
   completedQuestsBadge: string;
   startFirstQuestBtn: string;
 
-  // Offline / Profile
   offlineTitle: string;
   offlineSubtitle: string;
   languageComfortHeading: string;

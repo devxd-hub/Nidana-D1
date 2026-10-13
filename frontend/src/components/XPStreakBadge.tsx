@@ -18,7 +18,6 @@ export const XPStreakBadge: React.FC<XPStreakBadgeProps> = ({
   size = 'default',
   className = '',
 }) => {
-  // Determine variant based on type if not explicitly supplied
   const effectiveVariant = variant || (type === 'streak' || type === 'xp' ? 'gold' : type === 'level' ? 'brand' : 'neutral');
 
   const variantStyles = {

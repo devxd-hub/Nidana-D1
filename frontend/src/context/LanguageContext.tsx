@@ -24,7 +24,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         console.warn('Could not read language from localStorage:', e);
       }
     }
-    return 'odia'; // Default Odia-first comfort as requested by DESIGN.md
+    return 'odia';
   });
 
   const setLanguageMode = (mode: LanguageMode) => {
@@ -39,7 +39,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const toggleLanguage = () => {
-    // Quick toggle between Odia and English
     setLanguageMode(languageMode === 'odia' ? 'english' : 'odia');
   };
 
